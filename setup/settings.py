@@ -79,9 +79,10 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://festao_user:F37fZnKHpBbTAcOPZrWCNHilaMuv591Z@dpg-d0511ahr0fns73cujir0-a.oregon-postgres.render.com/festao'
+        default='postgresql://festao_rqog_user:F37fZnKHpBbTAcOPZrWCNHilaMuv591Z@dpg-d05qjbpr0fns73ekbef0-a.oregon-postgres.render.com/festao_rqog'
     )
 }
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = []
