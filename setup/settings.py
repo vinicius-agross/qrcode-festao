@@ -80,9 +80,7 @@ WSGI_APPLICATION = 'setup.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://festao_rqog_user:F37fZnKHpBbTAcOPZrWCNHilaMuv591Z@dpg-d05qjbpr0fns73ekbef0-a.oregon-postgres.render.com/festao_rqog',
-        conn_max_age=600,
-        ssl_require=True  # Certifica que a conexão usa SSL
+        default='postgresql://festao_rqog_user:o9ftXi163VdYbBr8hcIpeoJrUV3ATOhc@dpg-d05qjbpr0fns73ekbef0-a.oregon-postgres.render.com/festao_rqog'
     )
 }
 
