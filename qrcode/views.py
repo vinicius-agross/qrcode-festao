@@ -57,7 +57,7 @@ def gerar_pdf_qrcodes(request):
 
         for convidado in convidados:
             qr = segno.make(
-                f"https://qrcode-festao-1.onrender.com/validar/?codigo={convidado.cpf}")
+                f"https://qrcode-festao-dnsf.onrender.com//validar/?codigo={convidado.cpf}")
             qr_buffer = io.BytesIO()
             qr.save(qr_buffer, kind='png', scale=3)
             qr_buffer.seek(0)
