@@ -214,7 +214,7 @@ def cadastro(request):
         cliente_qtd.qtd_convites -= len(convidados)
         cliente_qtd.save()
 
-        return render(request, 'pages/cadastro.html', {'sucesso': True})
+        return redirect('index')
 
     return render(request, 'pages/cadastro.html')
 
