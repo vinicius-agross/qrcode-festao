@@ -17,11 +17,11 @@ class ClienteAdmin(admin.ModelAdmin):
 
 @admin.register(ClienteQtd)
 class ClienteQtdAdmin(admin.ModelAdmin):
-    list_display = ('cnpj', 'razsoc', 'qtd_convites')
+    list_display = ('cnpj', 'razsoc', 'email', 'qtd_convites')
     search_fields = ('cnpj',)
     ordering = ('cnpj',)
     fieldsets = (
         (None, {
-            'fields': ('cnpj', 'razsoc', 'qtd_convites')
+            'fields': ('cnpj', 'razsoc', 'email', 'qtd_convites')
         }),
     )

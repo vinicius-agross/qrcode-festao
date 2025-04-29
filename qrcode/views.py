@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 import io
 import re
 from datetime import datetime
@@ -264,3 +265,12 @@ def negado(request):
 
 def validado(request):
     return render(request, "resposta/validado.html")
+
+
+def buscar_email_por_cnpj(request):
+    cnpj = request.GET.get('cnpj')
+    try:
+        cliente = ClienteQtd.objects.get(cnpj=cnpj)
+        return JsonResponse({'email': cliente.email})
+    except ClienteQtd.DoesNotExist:
+        return JsonResponse({'email': ''})
