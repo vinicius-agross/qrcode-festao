@@ -20,6 +20,8 @@ class Cliente(models.Model):
 class ClienteQtd(models.Model):
     cnpj = models.CharField(max_length=14, primary_key=True)
     razsoc = models.CharField(max_length=100, null=True, blank=True)
+    email = models.EmailField(
+        max_length=255, null=True, blank=True)
     qtd_convites = models.IntegerField(null=True, blank=True)
 
     class Meta:
