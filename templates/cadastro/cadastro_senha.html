@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Senha</title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Cadastro de Senha</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="cnpj" value="{{ cnpj }}">
+            <div class="mb-3">
+                <label for="password1" class="form-label">Senha</label>
+                <input type="password" name="password1" id="password1" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="password2" class="form-label">Confirmar Senha</label>
+                <input type="password" name="password2" id="password2" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+    </div>
+</body>
+
+</html>
