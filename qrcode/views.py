@@ -61,7 +61,7 @@ def gerar_pdf_qrcodes(request):
 
         for convidado in convidados:
             qr = segno.make(
-                f"https://qrcode-festao-dnsf.onrender.com//validar/?codigo={convidado.cpf}")
+                f"https://qrcode-festao-dnsf.onrender.com/validar/?codigo={convidado.cpf}")
             qr_buffer = io.BytesIO()
             qr.save(qr_buffer, kind='png', scale=3)
             qr_buffer.seek(0)
@@ -290,7 +290,7 @@ def cadastrar_password(request):
                 # Envia o e-mail de reset
                 send_mail(
                     subject='Cadastro de Senha',
-                    message=f"Olá, você solicitou um cadastro de senha. Clique no link abaixo para cadastrar sua senha:\n\nhttp://127.0.0.1:8000//cadastrar-senha/{cnpj}",
+                    message=f"Olá, você solicitou um cadastro de senha. Clique no link abaixo para cadastrar sua senha:\n\nhttps://qrcode-festao-dnsf.onrender.com/cadastrar-senha/{cnpj}",
                     from_email='suporte@agross.com.br',
                     recipient_list=[cliente.email],
                 )
