@@ -1,3 +1,6 @@
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.http import JsonResponse
 import io
 import re
@@ -274,3 +277,58 @@ def buscar_email_por_cnpj(request):
         return JsonResponse({'email': cliente.email})
     except ClienteQtd.DoesNotExist:
         return JsonResponse({'email': ''})
+
+
+def cadastrar_password(request):
+    message = None
+    if request.method == 'POST':
+        cnpj = request.POST.get('cnpj', '').strip()
+
+        try:
+            cliente = ClienteQtd.objects.get(cnpj=cnpj)
+            if cliente.email:
+                # Envia o e-mail de reset
+                send_mail(
+                    subject='Cadastro de Senha',
+                    message=f"Olá, você solicitou um cadastro de senha. Clique no link abaixo para cadastrar sua senha:\n\nhttp://127.0.0.1:8000//cadastrar-senha/{cnpj}",
+                    from_email='suporte@agross.com.br',
+                    recipient_list=[cliente.email],
+                )
+                message = f"Um e-mail com instruções para cadastrar sua senha foi enviado para {cliente.email}."
+            else:
+                message = "O CNPJ informado não possui um e-mail cadastrado."
+
+        except ClienteQtd.DoesNotExist:
+            message = "CNPJ não encontrado."
+
+    return render(request, 'cadastro/cadastrar_password.html', {'message': message})
+
+
+def cadastrar_senha(request, cnpj):
+    message = None
+
+    try:
+        cliente = ClienteQtd.objects.get(cnpj=cnpj)
+    except ClienteQtd.DoesNotExist:
+        return render(request, 'cadastro/cadastrar_confirm.html', {'erro': 'CNPJ inválido.'})
+
+    if request.method == 'POST':
+        senha1 = request.POST.get('senha1', '')
+        senha2 = request.POST.get('senha2', '')
+
+        if senha1 != senha2:
+            message = "As senhas não coincidem."
+        else:
+            try:
+                user = User.objects.get(username=cnpj)
+                user.password = make_password(senha1)
+                user.save()
+                return redirect('login')
+                message = "Senha redefinida com sucesso."
+            except User.DoesNotExist:
+                message = "Usuário não encontrado."
+
+    return render(request, 'cadastro/cadastrar_confirm.html', {
+        'cnpj': cnpj,
+        'message': message
+    })

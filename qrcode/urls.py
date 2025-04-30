@@ -1,5 +1,5 @@
 from django.urls import path
-from qrcode.views import index, aprovado, negado, validar, gerador, validador, cadastro, validado, gerar_pdf_qrcodes, checkin, buscar_email_por_cnpj
+from qrcode.views import index, aprovado, negado, validar, gerador, validador, cadastro, validado, gerar_pdf_qrcodes, checkin, buscar_email_por_cnpj, cadastrar_password, cadastrar_senha
 
 urlpatterns = [
     path('', index, name="index"),
@@ -15,6 +15,6 @@ urlpatterns = [
     path('checkin/', checkin, name="checkin"),
     path('buscar-email/', buscar_email_por_cnpj,
          name='buscar_email_por_cnpj'),
-
-
+    path('cadastrar-senha/', cadastrar_password, name='cadastrar_password'),
+    path('cadastrar-senha/<str:cnpj>/', cadastrar_senha, name='cadastrar_senha'),
 ]

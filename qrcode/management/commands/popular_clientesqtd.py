@@ -9,9 +9,9 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         dados_ficticios = [
             {
-                'cnpj': '11222333000181',
-                'razsoc': 'Agro Alfa LTDA',
-                'email': 'contato@agroalfa.com.br',
+                'cnpj': '48330683893111',
+                'razsoc': 'Vinicius Pontes LTDA',
+                'email': 'vinnypts@gmail.com',
                 'qtd_convites': 2
             },
             {
