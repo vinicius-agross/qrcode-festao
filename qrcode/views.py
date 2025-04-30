@@ -279,6 +279,21 @@ def buscar_email_por_cnpj(request):
         return JsonResponse({'email': ''})
 
 
+def mascarar_email(email):
+    try:
+        usuario, dominio = email.split("@")
+        if len(usuario) <= 4:
+            # Se muito curto, mostra só o primeiro e o último
+            usuario_mascarado = usuario[0] + "*" * \
+                (len(usuario) - 2) + usuario[-1]
+        else:
+            usuario_mascarado = usuario[:3] + \
+                "*" * (len(usuario) - 4) + usuario[-1]
+        return f"{usuario_mascarado}@{dominio}"
+    except Exception:
+        return "***@***"
+
+
 def cadastrar_password(request):
     message = None
     if request.method == 'POST':
@@ -294,7 +309,8 @@ def cadastrar_password(request):
                     from_email='suporte@agross.com.br',
                     recipient_list=[cliente.email],
                 )
-                message = f"Um e-mail com instruções para cadastrar sua senha foi enviado para {cliente.email}."
+                email_mascarado = mascarar_email(cliente.email)
+                message = f"Um e-mail com instruções para cadastrar sua senha foi enviado para {email_mascarado}."
             else:
                 message = "O CNPJ informado não possui um e-mail cadastrado."
 
