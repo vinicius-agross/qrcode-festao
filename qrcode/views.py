@@ -1,3 +1,5 @@
+from django.core.cache import cache
+import secrets
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -302,10 +304,17 @@ def cadastrar_password(request):
         try:
             cliente = ClienteQtd.objects.get(cnpj=cnpj)
             if cliente.email:
-                # Envia o e-mail de reset
+                # Gera token seguro
+                token = secrets.token_urlsafe(32)
+                cache.set(token, cnpj, timeout=3600)  # expira em 1 hora
+
+                # Link com token
+                link = f"https://qrcode-festao-dnsf.onrender.com/cadastrar-senha/confirmar/?token={token}"
+
+                # Envia o e-mail
                 send_mail(
                     subject='Cadastro de Senha',
-                    message=f"Olá, você solicitou um cadastro de senha. Clique no link abaixo para cadastrar sua senha:\n\nhttps://qrcode-festao-dnsf.onrender.com/cadastrar-senha/{cnpj}",
+                    message=f"Olá, você solicitou um cadastro de senha. Clique no link abaixo para cadastrar sua senha:\n\n{link}",
                     from_email='suporte@agross.com.br',
                     recipient_list=[cliente.email],
                 )
@@ -320,8 +329,13 @@ def cadastrar_password(request):
     return render(request, 'cadastro/cadastrar_password.html', {'message': message})
 
 
-def cadastrar_senha(request, cnpj):
+def cadastrar_senha(request):
+    token = request.GET.get('token')
+    cnpj = cache.get(token)
     message = None
+
+    if not cnpj:
+        return render(request, 'cadastro/cadastrar_confirm.html', {'erro': 'Token inválido ou expirado.'})
 
     try:
         cliente = ClienteQtd.objects.get(cnpj=cnpj)
@@ -339,8 +353,8 @@ def cadastrar_senha(request, cnpj):
                 user = User.objects.get(username=cnpj)
                 user.password = make_password(senha1)
                 user.save()
+                cache.delete(token)  # invalida o token após uso
                 return redirect('login')
-                message = "Senha redefinida com sucesso."
             except User.DoesNotExist:
                 message = "Usuário não encontrado."
 

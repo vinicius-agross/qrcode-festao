@@ -16,5 +16,5 @@ urlpatterns = [
     path('buscar-email/', buscar_email_por_cnpj,
          name='buscar_email_por_cnpj'),
     path('cadastrar-senha/', cadastrar_password, name='cadastrar_password'),
-    path('cadastrar-senha/<str:cnpj>/', cadastrar_senha, name='cadastrar_senha'),
+    path('cadastrar-senha/confirmar/', cadastrar_senha, name='cadastrar_senha'),
 ]
