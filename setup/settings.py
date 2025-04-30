@@ -1,21 +1,18 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 import dj_database_url
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Secret key for Django
-SECRET_KEY = 'django-insecure-5s2zep#tjs!+(t^3wv9!flzg_ffb+eag)gniediw%p8d7hu0)k'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
 
-# Debugging and allowed hosts
-DEBUG = True
-ALLOWED_HOSTS = ['*']
-
-# Site configuration
 SITE_ID = 1
 
-# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -36,19 +33,18 @@ AUTHENTICATION_BACKENDS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "allauth.account.middleware.AccountMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'setup.urls'
 
-# Templates configuration
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -67,73 +63,46 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'setup.wsgi.application'
 
-# Database configuration (using SQLite here, but adjust as needed)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.oracle',
-#         'NAME': f"(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={os.getenv('DB_HOST')})(PORT={os.getenv('DB_PORT')}))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME={os.getenv('DB_SERVICE_NAME')})))",
-#         'USER': os.getenv('DB_USER'),
-#         'PASSWORD': os.getenv('DB_PASSWORD'),
-#     }
-# }
-
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://festao_rqog_user:o9ftXi163VdYbBr8hcIpeoJrUV3ATOhc@dpg-d05qjbpr0fns73ekbef0-a.oregon-postgres.render.com/festao_rqog'
-    )
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
 
-
-# Password validation
 AUTH_PASSWORD_VALIDATORS = []
 
-# Localization settings
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, images)
 STATIC_URL = 'static/'
-
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'setup/static')]
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Authentication settings
-# O login será feito apenas com o username
 ACCOUNT_AUTHENTICATION_METHOD = "username"
-ACCOUNT_EMAIL_REQUIRED = False  # E-mail não será obrigatório
-ACCOUNT_USERNAME_REQUIRED = True  # Username será obrigatório
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
-ACCOUNT_EMAIL_VERIFICATION = "optional"  # Desabilita verificação do e-mail
-ACCOUNT_SESSION_REMEMBER = True  # Mantém o login ativo após autenticação
-ACCOUNT_UNIQUE_EMAIL = False  # Permite múltiplos usuários com o mesmo e-mail
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_UNIQUE_EMAIL = False
 ACCOUNT_FORMS = {
     'signup': 'accounts.forms.CustomSignupForm',
 }
 
-LOGIN_URL = '/login/'  # URL para página de login personalizada
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# Social account settings
 SOCIALACCOUNT_LOGIN_ON_GET = True
 ACCOUNT_LOGOUT_ON_GET = True
 
-# Email backend configuration (for development purposes)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp-mail.outlook.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'suporte@agross.com.br'
-EMAIL_HOST_PASSWORD = '@dminAgross#&!'
-DEFAULT_FROM_EMAIL = 'suporte@agross.com.br'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
