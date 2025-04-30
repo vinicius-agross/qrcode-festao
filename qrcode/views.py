@@ -298,9 +298,9 @@ def cadastrar_password(request):
                 )
 
                 send_mail(
-                    subject='Cadastro de Senha',
-                    message='',  # O conteúdo do e-mail vai no corpo HTML
-                    html_message=email_body,  # Corpo do e-mail em HTML
+                    subject='Cadastro de Senha | Festão do AgRoss',
+                    message='',
+                    html_message=email_body,
                     from_email='suporte@agross.com.br',
                     recipient_list=[cliente.email],
                 )
