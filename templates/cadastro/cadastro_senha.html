@@ -4,24 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Senha | Festão AgRoss</title>
+    <title>Cadastro de Senha - Festão AgRoss</title>
     <style>
         /* Estilos gerais */
         body {
-            background-color: #000;
+            background-color: #121212;
             font-family: 'Segoe UI', sans-serif;
             color: #fff;
             margin: 0;
             padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .email-container {
-            max-width: 580px;
-            margin: auto;
-            background-color: rgba(0, 0, 0, 0.85);
+            max-width: 600px;
+            background-color: #1e1e1e;
             border-radius: 1rem;
             padding: 2rem;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
 
@@ -29,63 +32,88 @@
         .email-header {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #28a745;
+            color: #4caf50;
             margin-bottom: 1.5rem;
-            text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+            text-shadow: 0 0 4px rgba(76, 175, 80, 0.3);
         }
 
         /* Texto do e-mail */
         .email-body {
             font-size: 1rem;
-            color: #ccc;
-            line-height: 1.6;
+            color: #bbb;
+            line-height: 1.8;
             margin-bottom: 2rem;
         }
 
         /* Botão estilizado */
         .email-button {
             display: inline-block;
-            background-color: #28a745;
-            color: #fff;
-            padding: 0.75rem 1.5rem;
+            background-color: #4caf50;
+            color: #ffffffcc;
+            /* Cor do texto sutil */
+            padding: 0.6rem 1.5rem;
             font-size: 1rem;
             font-weight: bold;
-            text-transform: uppercase;
             text-decoration: none;
-            border-radius: 0.75rem;
-            transition: background-color 0.3s ease;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
         }
 
         .email-button:hover {
-            background-color: #218838;
+            background-color: #43a047;
+            color: #fff;
+            /* Realce ao passar o mouse */
+            transform: translateY(-1px);
+            /* Efeito sutil de elevação */
+        }
+
+        .email-button:focus {
+            outline: 2px solid #76ff03;
+            outline-offset: 2px;
         }
 
         /* Rodapé do e-mail */
         .email-footer {
             margin-top: 2rem;
             font-size: 0.85rem;
-            color: #888;
+            color: #666;
+        }
+
+        /* Ajustes para dispositivos menores */
+        @media (max-width: 480px) {
+            .email-container {
+                padding: 1.5rem;
+            }
+
+            .email-header {
+                font-size: 1.6rem;
+            }
+
+            .email-button {
+                padding: 0.5rem 1.2rem;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="email-container">
-        <div class="email-header">
+    <div class="email-container" role="main">
+        <header class="email-header">
             Cadastro de Senha
-        </div>
-        <div class="email-body">
+        </header>
+        <p class="email-body">
             Olá,<br><br>
             Você solicitou o cadastro de uma nova senha para acessar o sistema do Festão AgRoss.<br><br>
             Clique no botão abaixo para cadastrar sua senha com segurança:
-        </div>
-        <a href="{{ link }}" class="email-button">Cadastrar Senha</a>
-        <div class="email-body" style="margin-top: 2rem;">
+        </p>
+        <a href="{{ link }}" class="email-button" role="button" aria-label="Cadastrar nova senha">Cadastrar Senha</a>
+        <p class="email-body" style="margin-top: 2rem;">
             Se você não fez essa solicitação, ignore este e-mail.
-        </div>
-        <div class="email-footer">
+        </p>
+        <footer class="email-footer">
             &copy; 2025 AgRoss. Todos os direitos reservados.
-        </div>
+        </footer>
     </div>
 </body>
 
