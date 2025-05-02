@@ -24,13 +24,23 @@
                     <label for="senha1" class="icon-label">
                         <i class="fas fa-lock"></i> Senha
                     </label>
-                    <input type="password" id="senha1" name="senha1" class="form-control mobile-input" required>
+                    <div class="input-group">
+                        <input type="password" id="senha1" name="senha1" class="form-control mobile-input" required>
+                        <button type="button" class="btn btn-outline-secondary toggle-password" data-target="senha1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="senha2" class="icon-label">
                         <i class="fas fa-lock"></i> Confirme a Senha
                     </label>
-                    <input type="password" id="senha2" name="senha2" class="form-control mobile-input" required>
+                    <div class="input-group">
+                        <input type="password" id="senha2" name="senha2" class="form-control mobile-input" required>
+                        <button type="button" class="btn btn-outline-secondary toggle-password" data-target="senha2">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-lg-mobile btn-success">
                     <i class="fas fa-check"></i> Cadastrar
@@ -44,6 +54,25 @@
             </form>
         </div>
     </div>
+    <script>
+        document.querySelectorAll('.toggle-password').forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-target');
+                const targetInput = document.getElementById(targetId);
+                const icon = button.querySelector('i');
+
+                if (targetInput.type === 'password') {
+                    targetInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    targetInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
