@@ -19,7 +19,7 @@ body.custom-body::before {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-image: url("/static/imgs/background.png");
+  background-image: url("/staticfilles/imgs/background.png");
   background-size: cover;
   background-position: center;
   filter: blur(0px);
