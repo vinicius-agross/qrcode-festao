@@ -265,3 +265,5 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django
+qrcode/management/commands/criar_usuarios_clientes.py
+qrcode/management/commands/popular_clientesqtd.py
